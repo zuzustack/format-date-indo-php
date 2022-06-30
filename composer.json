@@ -1,0 +1,33 @@
+{
+  "name": "zuzustack/format-date-indo-php",
+  "description": "A simple format indonesian language date",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Zuzustack\\FormatDateIndoPhp\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Zuzustack\\FormatDateIndoPhp\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "zuzustack",
+      "email": "ridwanyamada@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {},
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "preferred-install": "dist"
+  }
+}
