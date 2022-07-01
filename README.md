@@ -14,16 +14,16 @@ You can download the package via github only for the current version, maybe late
 
 ## How to use
 
-- Use first time
+- Use first time version v0.1.0-alpha
 
 ```php
     <?php
-    require __DIR__ . "/vendor/zuzustack/src/Format.php";
+    require __DIR__ . "/vendor/format-date-indo-php-0.1.0-alpha/src/Format.php";
     use Zuzustack\FormatDateIndoPhp\Format;
 ```
 
 - function to calendar
 
 ```php
-    Format::toCalendar(); // have params (yyyy/mm/dd)
+    Format::toCalendar(); // have params (yyyy/mm/dd) @type String
 ```
