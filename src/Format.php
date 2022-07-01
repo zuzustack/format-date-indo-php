@@ -61,15 +61,28 @@ class Format implements FormatContract{
 
         // create text to indonesian language
         return Format::$hari[$tm_hari] . ", " . $arr[0] . " " . $bulan . " " . $arr[2]; 
+    
+    }
+
+    public static function formatCalendarDetail(string $format) // "dd/mm/yyyy_hh:ii:ss"
+    {
+        
+    }
+
+
+    public static function formatNow(){
+        $format = date("Y/m/d");
+        return Format::$hari[date('N')] . ', ' . Format::formatCalendar($format);
     }
 
 
 
+    public static function formatNowDetail(){
+        
+    }
 
 
-    public static function formatNow(){
-        date_default_timezone_set("Asia/Jakarta");
-        $format = date("Y/m/d");
-        return Format::$hari[date('N')] . ', ' . Format::formatCalendar($format);
+    public static function getFormatNow(){
+        return date("Y/m/d");
     }
 }
