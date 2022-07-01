@@ -35,9 +35,9 @@ class Format implements FormatContract{
                 
             }
         }catch (ErrorHandle $e){
-            echo $e->errorMessage() . "\n";
+            return $e->errorMessage() . "\n";
         }
 
-
+        return $arr[2] . ' ' . $bulan . ' ' .$arr[0];
     }
 }
