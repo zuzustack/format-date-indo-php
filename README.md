@@ -18,12 +18,22 @@ You can download the package via github only for the current version, maybe late
 
 ```php
     <?php
-    require __DIR__ . "/vendor/format-date-indo-php-0.1.0-alpha/src/Format.php";
+    require __DIR__ . "where you save the file";
     use Zuzustack\FormatDateIndoPhp\Format;
 ```
 
-- function to calendar
+- Function formatCalendar()
 
 ```php
-    Format::toCalendar(); // have params (yyyy/mm/dd) @type String
+    Format::formatCalendar('dd/mm/yyyy');
+
+    echo Format::formatCalendar("11/06/2005"); //Sabtu, 11 Juni 2005
+```
+
+- Function formatNow()
+
+```php
+    Format::formatNow();
+
+    echo Format::formatNow(); // LocalDate
 ```

@@ -20,24 +20,102 @@ class Format implements FormatContract{
         ["November", "30"], 
         ["Desember", "31"]
     ];
+
+    private static $hari = [
+        'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", "Sabtu", "Minggu"
+    ];
     
-    public static function formatCalendar(string $format)  // "yyyy/mm/dd" format input
+    public static function formatCalendar(string $format)  // "dd/mm/yyyy" format input
     {   
-        $arr = explode("/",$format);
-        $arr[1] = intval($arr[1]);
+        // Explode string to array with delimiter /
+        $arr = \explode('/', $format);
 
-        $bulan = Format::$calendar[$arr[1] - 1][0];
-        $max_hari = Format::$calendar[$arr[1] - 1][1];
 
+        // check if user input > month error
         try{
-            if ($max_hari < $arr[2] ) {
-                throw new ErrorHandle("tooManyDays", $bulan , $max_hari );
-                
+            if ( \intval($arr[1]) > 12) {
+                throw new ErrorHandle('tooManyMonth');
             }
         }catch (ErrorHandle $e){
             return $e->errorMessage() . "\n";
         }
 
-        return $arr[2] . ' ' . $bulan . ' ' .$arr[0];
+        // get data from $calendar
+        $bulan = Format::$calendar[\intval($arr[1]) - 1 ][0];
+        $max_hari = Format::$calendar[\intval($arr[1])][1];
+
+        
+        // check if user input > days error
+        try{
+            if ( $max_hari < \intval($arr[0])) {
+                throw new ErrorHandle('tooManyDays' , $max_hari);
+            }
+        }catch (ErrorHandle $e){
+            return $e->errorMessage() . "\n";
+        }
+
+
+        // get timestamp from input user
+        $timestamp = \mktime(0,0,0,\intval($arr[1]),\intval($arr[0]),\intval($arr[2]));
+        $tm_hari = \date('N', $timestamp) - 1;
+
+        // create text to indonesian language
+        return Format::$hari[$tm_hari] . ", " . $arr[0] . " " . $bulan . " " . $arr[2]; 
+    
     }
+
+    public static function formatCalendarDetail(string $format) // "dd/mm/yyyy_hh:ii:ss" format input
+    {
+        $temp = \explode('_', $format);
+
+        $date = \explode('/', $temp[0]);
+        $time = $temp[1];
+
+        // check if user input > month error
+        try{
+            if ( \intval($date[1]) > 12) {
+                throw new ErrorHandle('tooManyMonth');
+            }
+        }catch (ErrorHandle $e){
+            return $e->errorMessage() . "\n";
+        }
+
+        // get data from $calendar
+        $bulan = Format::$calendar[\intval($date[1]) - 1 ][0];
+        $max_hari = Format::$calendar[\intval($date[1])][1];
+
+        
+        // check if user input > days error
+        try{
+            if ( $max_hari < \intval($date[0])) {
+                throw new ErrorHandle('tooManyDays' , $max_hari);
+            }
+        }catch (ErrorHandle $e){
+            return $e->errorMessage() . "\n";
+        }
+
+
+        // get timestamp from input user
+        $timestamp = \mktime(0,0,0,\intval($date[1]),\intval($date[0]),\intval($date[2]));
+        $tm_hari = \date('N', $timestamp) - 1;
+
+        // create text to indonesian language
+        return Format::$hari[$tm_hari] . ", " . $date[0] . " " . $bulan . " " . $date[2] . ". Waktu: " . $time; 
+    }
+
+
+    public static function formatNow(){
+        $format = date("d/m/Y");
+        return Format::formatCalendar($format);
+    }
+
+
+    public static function getFormat(){
+        return date("d/m/Y");
+    }
+
+    public static function getFormatDetail(){
+        return date("d/m/Y_H:i:s");
+    }
+
 }
