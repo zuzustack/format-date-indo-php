@@ -64,25 +64,58 @@ class Format implements FormatContract{
     
     }
 
-    public static function formatCalendarDetail(string $format) // "dd/mm/yyyy_hh:ii:ss"
+    public static function formatCalendarDetail(string $format) // "dd/mm/yyyy_hh:ii:ss" format input
     {
+        $temp = \explode('_', $format);
+
+        $date = \explode('/', $temp[0]);
+        $time = $temp[1];
+
+        // check if user input > month error
+        try{
+            if ( \intval($date[1]) > 12) {
+                throw new ErrorHandle('tooManyMonth');
+            }
+        }catch (ErrorHandle $e){
+            return $e->errorMessage() . "\n";
+        }
+
+        // get data from $calendar
+        $bulan = Format::$calendar[\intval($date[1]) - 1 ][0];
+        $max_hari = Format::$calendar[\intval($date[1])][1];
+
         
+        // check if user input > days error
+        try{
+            if ( $max_hari < \intval($date[0])) {
+                throw new ErrorHandle('tooManyDays' , $max_hari);
+            }
+        }catch (ErrorHandle $e){
+            return $e->errorMessage() . "\n";
+        }
+
+
+        // get timestamp from input user
+        $timestamp = \mktime(0,0,0,\intval($date[1]),\intval($date[0]),\intval($date[2]));
+        $tm_hari = \date('N', $timestamp) - 1;
+
+        // create text to indonesian language
+        return Format::$hari[$tm_hari] . ", " . $date[0] . " " . $bulan . " " . $date[2] . ". Waktu: " . $time; 
     }
 
 
     public static function formatNow(){
-        $format = date("Y/m/d");
-        return Format::$hari[date('N')] . ', ' . Format::formatCalendar($format);
+        $format = date("d/m/Y");
+        return Format::formatCalendar($format);
     }
 
 
-
-    public static function formatNowDetail(){
-        
+    public static function getFormat(){
+        return date("d/m/Y");
     }
 
-
-    public static function getFormatNow(){
-        return date("Y/m/d");
+    public static function getFormatDetail(){
+        return date("d/m/Y_H:i:s");
     }
+
 }
